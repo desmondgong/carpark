@@ -15,6 +15,7 @@ class BusCmdController extends PureComponent {
     this.onTurnBus = this.onTurnBus.bind(this);
     this.onSwitchBus = this.onSwitchBus.bind(this);
     this.onParseCmds = this.onParseCmds.bind(this);
+    this.onUploadFile = this.onUploadFile.bind(this);
   }
 
   onCreateNewBus({ posX, posY, direction }) {
@@ -51,6 +52,17 @@ class BusCmdController extends PureComponent {
     switchBus(busId);
   }
 
+  onUploadFile(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = (e) => {
+      const cmds = e.target.result;
+      this.cmdInputDom.value = cmds;
+      this.setState({ cmds });
+    };
+    reader.readAsText(file);
+  }
+
   onParseCmds() {
     const { cmds } = this.state;
     const cmdArray = cmds.toUpperCase().split('\n');
@@ -84,18 +96,25 @@ class BusCmdController extends PureComponent {
       }, 0);
     });
     // clear the selected bus id after CMDs are finished.
-    this.onSwitchBus(null);
+    setTimeout(() => {
+      this.onSwitchBus(null);
+    }, 0);
   }
   render() {
     return (<section className={'cmd-controller'}>
       <label htmlFor={'cmd-input'}>
         {'Enter CMDs:'}
         <textarea
+          ref={(ele) => { this.cmdInputDom = ele; }}
           id={'cmd-input'}
           onChange={(e) => { this.setState({ cmds: e.target.value }); }}
         />
       </label>
       <button onClick={this.onParseCmds}>{'EXECUTE'}</button>
+      <div>
+        <label htmlFor="file">{'Choose file to upload'}</label>
+        <input onChange={this.onUploadFile} type="file" id="file" />
+      </div>
     </section>);
   }
 }

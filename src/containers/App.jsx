@@ -1,23 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Carpark from '../components/Carpark';
-import BusPanelController from './BusPanelController';
+// import BusPanelController from './BusPanelController';
 import BusCmdController from './BusCmdController';
 
-class App extends Component {
-  render() {
-    const { buses, selectedBusId, parkSize, notification } = this.props;
-    return (
-      <div className={'carpark-container'}>
-        <Carpark buses={buses} selectedBusId={selectedBusId} parkSize={parkSize} />
-        <BusPanelController />
-        <BusCmdController />
-        { notification ? <span>{notification}</span> : null }
-      </div>
-    );
-  }
-}
+const App = ({ buses, selectedBusId, parkSize, notification }) => (<div className={'carpark-container'}>
+  <Carpark buses={buses} selectedBusId={selectedBusId} parkSize={parkSize} />
+  {/* <BusPanelController /> */}
+  <BusCmdController />
+  { notification ? <span>{notification}</span> : null }
+</div>);
 
 App.propTypes = {
   buses: PropTypes.arrayOf(PropTypes.shape({
