@@ -11,6 +11,7 @@
     "check:lint": "eslint -f html --ext .js --ext .jsx src/ -o tests/out/lint-report.html"
   },
   "dependencies": {
+    "classnames": "2.2.3",
     "cross-env": "3.1.3",
     "express": "4.16.2",
     "prop-types": "15.5.7",
@@ -32,6 +33,7 @@
     "babel-preset-nodejs6": "1.0.0",
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-0": "6.16.0",
+    "css-loader": "0.23.0",
     "eslint": "3.11.1",
     "eslint-config-airbnb": "13.0.0",
     "eslint-config-airbnb-base": "10.0.1",
@@ -39,6 +41,10 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.6.0",
+    "node-sass": "4.3.0",
+    "postcss-loader": "0.8.2",
+    "sass-loader": "6.0.3",
+    "style-loader": "0.13.0",
     "webpack": "2.4.1",
     "webpack-dev-middleware": "1.10.2"
   },
