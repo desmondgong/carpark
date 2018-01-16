@@ -5,7 +5,7 @@ import * as CONSTANTS from '../constants';
 import { placeBus, selectBus } from '../actions';
 import * as Utils from '../utils';
 
-class BusCab extends PureComponent {
+class BusPanelController extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -109,7 +109,7 @@ class BusCab extends PureComponent {
   }
 }
 
-BusCab.propTypes = {
+BusPanelController.propTypes = {
   buses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     posX: PropTypes.number,
@@ -136,5 +136,5 @@ const mapDispatchToProps = dispatch => ({
     dispatch(selectBus(busId));
   },
 });
-export { BusCab as BusCabCom };
-export default connect(mapStateToProps, mapDispatchToProps)(BusCab);
+export { BusPanelController as BusPanelControllerCom };
+export default connect(mapStateToProps, mapDispatchToProps)(BusPanelController);

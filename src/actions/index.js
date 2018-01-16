@@ -24,14 +24,22 @@ export const setNotification = message => ({
 
 /**
  * select the target bus
- * @param  {String} busId [target bus's id, set the last insert one if undefined.]
+ * @param  {String} busId [target bus's id.
+ *                          If undefined, set the last insert one.
+ *                          If null, set it as empty.]
  * @return {null}          [Dispatches the related action]
  */
 export const selectBus = busId => (dispatch, getState) => {
-  const { buses } = getState();
-  const selectedBus = buses.find((bus, i) =>
-    (bus.id === busId || i === buses.length - 1));
-  dispatch(setSelectedBusId(selectedBus.id));
+  let selectedBusId;
+  if (busId === null) {
+    selectedBusId = null;
+  } else {
+    const { buses } = getState();
+    const selectedBus = buses.find((bus, i) =>
+      (bus.id === busId || i === buses.length - 1));
+    selectedBusId = selectedBus.id;
+  }
+  dispatch(setSelectedBusId(selectedBusId));
 };
 
 /**
@@ -48,10 +56,10 @@ export const placeBus = (position, id) => (dispatch, getState) => {
     dispatch(setNotification('Target position is outside of park.'));
   } else if (Utils.checkBusExists(position, buses, id)) {
     dispatch(setNotification('The park unit has been covered by another bus.'));
-  } else if (!id) {
+  } else if (id) {
+    dispatch(moveExistingBus(position, id));
+  } else if (Utils.isValidDirection(position.direction)) {
     dispatch(createNewBus(position));
     dispatch(selectBus());
-  } else {
-    dispatch(moveExistingBus(position, id));
   }
 };

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Carpark from '../components/Carpark';
-import BusCab from './BusCab';
+import BusPanelController from './BusPanelController';
+import BusCmdController from './BusCmdController';
 
 class App extends Component {
   render() {
@@ -10,7 +11,8 @@ class App extends Component {
     return (
       <div className={'carpark-container'}>
         <Carpark buses={buses} selectedBusId={selectedBusId} parkSize={parkSize} />
-        <BusCab />
+        <BusPanelController />
+        <BusCmdController />
         { notification ? <span>{notification}</span> : null }
       </div>
     );

@@ -1,4 +1,6 @@
 import * as CONSTANTS from '../constants';
+
+export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(direction) > -1);
 /**
  * Check whether there is another bus stops at the target unit.
  * @param  {Object} [newPosition]   [The new position will the bus locate,
