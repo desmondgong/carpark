@@ -1,0 +1,49 @@
+{
+  "name": "carpark",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production npm run build:app && npm run build:server",
+    "build:app": "webpack --config=webpack.config.js",
+    "build:server": "babel ./server --out-dir ./lib/server --copy-files",
+    "start": "cross-env NODE_ENV=production node ./lib/server/server.js",
+    "start:dev": "cross-env NODE_ENV=development babel-node ./server/server.js",
+    "check:lint": "eslint -f html --ext .js --ext .jsx src/ -o tests/out/lint-report.html"
+  },
+  "dependencies": {
+    "cross-env": "3.1.3",
+    "express": "4.16.2",
+    "prop-types": "15.5.7",
+    "react": "15.6.2",
+    "react-addons-pure-render-mixin": "15.3.2",
+    "react-dom": "15.6.2",
+    "react-redux": "4.4.5",
+    "redux": "3.5.2",
+    "redux-thunk": "2.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.11.4",
+    "babel-core": "6.24.0",
+    "babel-plugin-istanbul": "4.1.3",
+    "babel-plugin-module-resolver": "2.3.0",
+    "babel-plugin-rewire": "1.0.0-rc-3",
+    "babel-polyfill": "6.23.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-nodejs6": "1.0.0",
+    "babel-preset-react": "6.11.1",
+    "babel-preset-stage-0": "6.16.0",
+    "eslint": "3.11.1",
+    "eslint-config-airbnb": "13.0.0",
+    "eslint-config-airbnb-base": "10.0.1",
+    "eslint-loader": "1.7.1",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "2.2.3",
+    "eslint-plugin-react": "6.6.0",
+    "webpack": "2.4.1",
+    "webpack-dev-middleware": "1.10.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/desmondgong/carpark"
+  }
+}

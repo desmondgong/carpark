@@ -1,0 +1,10 @@
+{
+  "presets": ["nodejs6", "stage-0", "es2015", "react"],
+  "plugins": ["rewire", ["module-resolver", {
+    "root": ["./src"],
+    "alias": {
+      "src": "./src",
+      "tests": "./tests"
+    }}
+  ]]
+}
