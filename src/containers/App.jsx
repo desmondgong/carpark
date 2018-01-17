@@ -5,7 +5,7 @@ import Carpark from '../components/Carpark';
 // import BusPanelController from './BusPanelController';
 import BusCmdController from './BusCmdController';
 
-const App = ({ buses, selectedBusId, parkSize, notification }) => (<div className={'carpark-container'}>
+const App = ({ buses, selectedBusId, parkSize, notification }) => (<div className={'main-content'}>
   <Carpark buses={buses} selectedBusId={selectedBusId} parkSize={parkSize} />
   {/* <BusPanelController /> */}
   <BusCmdController />

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import WithBusController from './WithBusController';
+import { connect } from 'react-redux';
+import { placeBus, selectBus } from '../actions';
+import * as Utils from '../utils';
 import * as CONSTANTS from '../constants';
 
 class BusCmdController extends PureComponent {
@@ -9,8 +11,46 @@ class BusCmdController extends PureComponent {
     this.state = {
       cmds: '',
     };
+    this.onCreateNewBus = this.onCreateNewBus.bind(this);
+    this.onTurnBus = this.onTurnBus.bind(this);
+    this.onMoveBus = this.onMoveBus.bind(this);
+    this.onSwitchBus = this.onSwitchBus.bind(this);
     this.onUploadFile = this.onUploadFile.bind(this);
     this.onParseCmds = this.onParseCmds.bind(this);
+  }
+
+  onCreateNewBus({ posX, posY, direction }) {
+    const { changeBusPos } = this.props;
+    changeBusPos({ posX, posY, direction });
+  }
+
+  onTurnBus(isClockwise) {
+    const { buses, selectedBusId, changeBusPos } = this.props;
+    if (!selectedBusId) {
+      // TODO add error message and logs.
+      return;
+    }
+    const selectedBus = buses.find(bus => bus.id === selectedBusId);
+    changeBusPos({
+      posX: selectedBus.posX,
+      posY: selectedBus.posY,
+      direction: Utils.rotateBus(selectedBus.direction, isClockwise),
+    }, selectedBusId);
+  }
+
+  onMoveBus(isForward) {
+    const { buses, selectedBusId, changeBusPos } = this.props;
+    if (!selectedBusId) {
+      // TODO add error message and logs.
+      return;
+    }
+    const selectedBus = buses.find(bus => bus.id === selectedBusId);
+    changeBusPos(Utils.moveBus(selectedBus, isForward), selectedBusId);
+  }
+
+  onSwitchBus(busId) {
+    const { switchBus } = this.props;
+    switchBus(busId);
   }
 
   onUploadFile(event) {
@@ -29,7 +69,6 @@ class BusCmdController extends PureComponent {
 
   onParseCmds() {
     const { cmds } = this.state;
-    const { onCreateNewBus, onTurnBus, onMoveBus, onSwitchBus } = this.props;
     const cmdArray = cmds.toUpperCase().split('\n');
     cmdArray.forEach((cmd) => {
       // add setTimeout() here to wait until the last cmd is executed.
@@ -40,7 +79,7 @@ class BusCmdController extends PureComponent {
         switch (cmdType) {
           case CONSTANTS.CMD_PLACE:
             if (cmdArgs.length > 2) {
-              onCreateNewBus({
+              this.onCreateNewBus({
                 posX: parseInt(cmdArgs[0], 10),
                 posY: parseInt(cmdArgs[1], 10),
                 direction: cmdArgs[2],
@@ -48,13 +87,13 @@ class BusCmdController extends PureComponent {
             }
             break;
           case CONSTANTS.CMD_TURN_LEFT:
-            onTurnBus(false);
+            this.onTurnBus(false);
             break;
           case CONSTANTS.CMD_TURN_RIGHT:
-            onTurnBus(true);
+            this.onTurnBus(true);
             break;
           case CONSTANTS.CMD_MOVE_FARWARD:
-            onMoveBus(true);
+            this.onMoveBus(true);
             break;
           default:
         }
@@ -62,7 +101,7 @@ class BusCmdController extends PureComponent {
     });
     // clear the selected bus id after CMDs are finished.
     setTimeout(() => {
-      onSwitchBus(null);
+      this.onSwitchBus(null);
     }, 0);
   }
   render() {
@@ -75,7 +114,7 @@ class BusCmdController extends PureComponent {
           onChange={(e) => { this.setState({ cmds: e.target.value }); }}
         />
       </label>
-      <button onClick={this.onParseCmds}>{'EXECUTE'}</button>
+      <button id="cmd-exec" onClick={this.onParseCmds}>{'EXECUTE'}</button>
       <div>
         <label htmlFor="file">{'Choose file to upload'}</label>
         <input
@@ -90,11 +129,32 @@ class BusCmdController extends PureComponent {
 }
 
 BusCmdController.propTypes = {
-  onCreateNewBus: PropTypes.func,
-  onTurnBus: PropTypes.func,
-  onMoveBus: PropTypes.func,
-  onSwitchBus: PropTypes.func,
+  buses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    posX: PropTypes.number,
+    posY: PropTypes.number,
+    direction: PropTypes.string,
+  })),
+  selectedBusId: PropTypes.string,
+  changeBusPos: PropTypes.func,
+  switchBus: PropTypes.func,
 };
 
+/* istanbul ignore next */
+const mapStateToProps = state => ({
+  buses: state.buses,
+  selectedBusId: state.selectedBusId,
+});
+
+/* istanbul ignore next */
+const mapDispatchToProps = dispatch => ({
+  changeBusPos(position, busId) {
+    dispatch(placeBus(position, busId));
+  },
+  switchBus(busId) {
+    dispatch(selectBus(busId));
+  },
+});
+
 export { BusCmdController as BusCmdControllerCom };
-export default WithBusController(BusCmdController);
+export default connect(mapStateToProps, mapDispatchToProps)(BusCmdController);

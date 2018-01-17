@@ -14,7 +14,7 @@ const Carpark = ({ buses, selectedBusId, parkSize }) => {
       direction: bus.direction,
     };
   });
-  return (<section>
+  return (<section className={'carpark-container'}>
     {
       parkUnits.map((parkUnit, i) => {
         let unitClass = classnames('park-unit', (i % parkSize === 0) ? 'boundary' : '');
