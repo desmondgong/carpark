@@ -12,6 +12,7 @@ export default (state = INITIAL_STATE, action) => {
     case ACTION_TYPES.CREATE_NEW_BUS:
       return {
         ...state,
+        // TODO: The new bus's Id is automatically set, move this to support customized id.
         buses: [...state.buses, { ...action.newBus, id: `${state.buses.length + 1}` }],
       };
     case ACTION_TYPES.SET_SELECTED_BUS:

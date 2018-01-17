@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { placeBus, selectBus } from '../actions';
 import * as Utils from '../utils';
 
+// TODO Use a composition to set the movment function,
+// there are still some issues in Unit Test.
 const WithBusController = (WrappedComponent) => {
   class BusController extends PureComponent {
     constructor(props) {

@@ -1,6 +1,12 @@
 import * as CONSTANTS from '../constants';
 
+/**
+ * Check whether the direction is valid or not.
+ * @param  {String}  direction [The supported directions are set in CONSTANTS]
+ * @return {Boolean}           [Return ture if valid]
+ */
 export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(direction) > -1);
+
 /**
  * Check whether there is another bus stops at the target unit.
  * @param  {Object} [newPosition]   [The new position will the bus locate,
@@ -10,7 +16,7 @@ export const isValidDirection = direction => (CONSTANTS.DIR_ALL.indexOf(directio
  *                                   the attributes:: posX(int), posY(int)]
  * @param  {String} id              [Bus id, if exist, need to check whether it is the same bus.
  *                                  For the cases: turning bus's directions.]
- * @return {Boolean}                [True if exists, false if no]
+ * @return {Boolean}                [Return true if exists, false if no]
  */
 export const checkBusExists = (newPosition = {}, existingBuses = [], id) => {
   for (let i = 0; i < existingBuses.length; i += 1) {
@@ -24,6 +30,12 @@ export const checkBusExists = (newPosition = {}, existingBuses = [], id) => {
   return false;
 };
 
+/**
+ * Check the target position is inside carpark or not
+ * @param  {Object} [newPosition]  [Target position]
+ * @param  {Number} [parkSize]     [Park size]
+ * @return {Boolean}               [Return true if inside]
+ */
 export const checkInsidePark = (newPosition = {}, parkSize = 0) => {
   if (newPosition.posX < 0 || newPosition.posY < 0 ||
       newPosition.posX >= parkSize || newPosition.posY >= parkSize) {
@@ -32,6 +44,14 @@ export const checkInsidePark = (newPosition = {}, parkSize = 0) => {
   return true;
 };
 
+/**
+ * Rotate bus with 90 degree in clockwise or anticlockwise
+ * @param  {String}  currentDirection   [Current direction,
+ *                                        the supported ones are set in CONSTANTS]
+ * @param  {Boolean} [isClockwise]      [Turning direction, true for clockwise]
+ * @return {String}                     [Return the new direction,
+ *       Notice: if the direction passed in is not supported, return empty string]
+ */
 export const rotateBus = (currentDirection, isClockwise = false) => {
   const directionsArray = CONSTANTS.DIR_ALL;
   let index = null;
@@ -48,6 +68,14 @@ export const rotateBus = (currentDirection, isClockwise = false) => {
   return directionsArray[((index + directionsArray.length) - 1) % directionsArray.length];
 };
 
+/**
+ * Move the bus forward or backward.
+ * @param  {Object}  [currentPosition]  [Current position of the bus,
+ *                                    must include attributes: posX(int), posY(int)]
+ * @param  {Boolean} isForward          [Moving forward or backward]
+ * @return {Object}                    [Return the new position after moving,
+ *        Notice: if the currentPosition is not supported, return the same one.]
+ */
 export const moveBus = (currentPosition = {}, isForward) => {
   let moveDir = currentPosition.direction;
   if (!isForward) {

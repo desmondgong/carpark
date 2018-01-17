@@ -5,6 +5,9 @@ import * as CONSTANTS from '../constants';
 import { placeBus, selectBus } from '../actions';
 import * as Utils from '../utils';
 
+/**
+ * This container includes some buttons for manually control the carpark.
+ */
 class BusPanelController extends PureComponent {
   constructor(props) {
     super(props);

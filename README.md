@@ -46,6 +46,14 @@ REPORT
 
 ---
 ## Getting started
+### Tech Stack
+This application is based on the following tools/libraries:
+- UI Render: **React/Redux, SASS**.
+- Bundler: **Webpack**.
+- Lint check: **ESlint, eslint-config-airbnb**.
+- Unit Test: **Jasmine, Enzyme, Karma**.
+- Web Server: **Express**.
+
 ### Setup
 1. Clone the project from Git repo.
 2. Make sure you have node installed (install Node.js LTS v6.X.X, NPM 3.X).
