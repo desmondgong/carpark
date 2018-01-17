@@ -15,6 +15,7 @@ class BusPanelController extends PureComponent {
     };
     this.onCreateNewBus = this.onCreateNewBus.bind(this);
     this.onTurnBus = this.onTurnBus.bind(this);
+    this.onMoveBus = this.onMoveBus.bind(this);
     this.onSwitchBus = this.onSwitchBus.bind(this);
   }
 
