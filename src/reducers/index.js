@@ -1,6 +1,6 @@
 import * as ACTION_TYPES from '../constants/ActionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   buses: [],
   selectedBusId: '',
   parkSize: 5,

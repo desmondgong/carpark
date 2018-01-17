@@ -31,10 +31,10 @@ export const setNotification = message => ({
  */
 export const selectBus = busId => (dispatch, getState) => {
   let selectedBusId;
-  if (busId === null) {
+  const { buses } = getState();
+  if (busId === null || buses.length === 0) {
     selectedBusId = null;
   } else {
-    const { buses } = getState();
     const selectedBus = buses.find((bus, i) =>
       (bus.id === busId || i === buses.length - 1));
     selectedBusId = selectedBus.id;

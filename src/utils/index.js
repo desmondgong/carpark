@@ -48,16 +48,18 @@ export const rotateBus = (currentDirection, isClockwise = false) => {
   return directionsArray[((index + directionsArray.length) - 1) % directionsArray.length];
 };
 
-export const moveBus = (currentPosition, isForward) => {
+export const moveBus = (currentPosition = {}, isForward) => {
   let moveDir = currentPosition.direction;
   if (!isForward) {
-    let index = 0;
+    let index;
     CONSTANTS.DIR_ALL.forEach((dir, i) => {
       if (dir === moveDir) {
         index = i;
       }
     });
-    moveDir = CONSTANTS.DIR_ALL[(index + 2) % CONSTANTS.DIR_ALL.length];
+    if (index !== undefined) {
+      moveDir = CONSTANTS.DIR_ALL[(index + 2) % CONSTANTS.DIR_ALL.length];
+    }
   }
   switch (moveDir) {
     case CONSTANTS.DIR_NORTH:

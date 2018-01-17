@@ -15,13 +15,16 @@ class BusCmdController extends PureComponent {
 
   onUploadFile(event) {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = (e) => {
-      const cmds = e.target.result;
-      this.cmdInputDom.value = cmds;
-      this.setState({ cmds });
-    };
-    reader.readAsText(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = (e) => {
+        const cmds = e.target.result;
+        this.cmdInputDom.value = cmds;
+        this.setState({ cmds });
+        this.fileUploadDom.value = '';
+      };
+      reader.readAsText(file);
+    }
   }
 
   onParseCmds() {
@@ -75,7 +78,12 @@ class BusCmdController extends PureComponent {
       <button onClick={this.onParseCmds}>{'EXECUTE'}</button>
       <div>
         <label htmlFor="file">{'Choose file to upload'}</label>
-        <input onChange={this.onUploadFile} type="file" id="file" />
+        <input
+          ref={(ele) => { this.fileUploadDom = ele; }}
+          onChange={this.onUploadFile}
+          type="file"
+          id="file"
+        />
       </div>
     </section>);
   }
