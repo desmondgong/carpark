@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get('/home', (req, res) => {
+app.get('/carpark', (req, res) => {
   /* eslint react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }] */
   const document = renderToString(<Home />);
   res.status(200).send(`<!DOCTYPE html>${document}`);

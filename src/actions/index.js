@@ -22,6 +22,11 @@ export const setNotification = message => ({
   message,
 });
 
+export const setReport = message => ({
+  type: ACTION_TYPES.SET_REPORT,
+  message,
+});
+
 /**
  * select the target bus
  * @param  {String} busId [target bus's id.

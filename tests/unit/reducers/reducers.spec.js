@@ -60,4 +60,14 @@ describe('view reducers', () => {
     const state = Reducer(initialState, action);
     expect(state).toEqual(jasmine.objectContaining({ notification: message }));
   });
+
+  it('handles action SET_REPORT', () => {
+    const message = '0,0,NORTH';
+    const action = {
+      type: ACTION_TYPES.SET_REPORT,
+      message,
+    };
+    const state = Reducer(initialState, action);
+    expect(state).toEqual(jasmine.objectContaining({ report: message }));
+  });
 });

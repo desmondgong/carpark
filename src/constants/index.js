@@ -8,3 +8,4 @@ export const CMD_PLACE = 'PLACE';
 export const CMD_TURN_LEFT = 'LEFT';
 export const CMD_TURN_RIGHT = 'RIGHT';
 export const CMD_MOVE_FARWARD = 'MOVE';
+export const CMD_REPORT = 'REPORT';

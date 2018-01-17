@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { placeBus, selectBus } from '../actions';
+import { placeBus, selectBus, setReport } from '../actions';
 import * as Utils from '../utils';
 import * as CONSTANTS from '../constants';
 
@@ -15,6 +15,7 @@ class BusCmdController extends PureComponent {
     this.onTurnBus = this.onTurnBus.bind(this);
     this.onMoveBus = this.onMoveBus.bind(this);
     this.onSwitchBus = this.onSwitchBus.bind(this);
+    this.onReportPos = this.onReportPos.bind(this);
     this.onUploadFile = this.onUploadFile.bind(this);
     this.onParseCmds = this.onParseCmds.bind(this);
   }
@@ -53,6 +54,19 @@ class BusCmdController extends PureComponent {
     switchBus(busId);
   }
 
+  onReportPos(isClearMsg) {
+    const { buses, selectedBusId, changeReport } = this.props;
+    if (isClearMsg) {
+      changeReport('');
+    } else {
+      const selectedBus = buses.find(bus => bus.id === selectedBusId);
+      if (selectedBus) {
+        const currentPosMsg = `${selectedBus.posX},${selectedBus.posY},${selectedBus.direction}`;
+        changeReport(currentPosMsg);
+      }
+    }
+  }
+
   onUploadFile(event) {
     const file = event.target.files[0];
     if (file) {
@@ -68,6 +82,10 @@ class BusCmdController extends PureComponent {
   }
 
   onParseCmds() {
+    // clear report before new cmds are executed.
+    setTimeout(() => {
+      this.onReportPos(true);
+    }, 0);
     const { cmds } = this.state;
     const cmdArray = cmds.toUpperCase().split('\n');
     cmdArray.forEach((cmd) => {
@@ -95,6 +113,9 @@ class BusCmdController extends PureComponent {
           case CONSTANTS.CMD_MOVE_FARWARD:
             this.onMoveBus(true);
             break;
+          case CONSTANTS.CMD_REPORT:
+            this.onReportPos();
+            break;
           default:
         }
       }, 0);
@@ -105,16 +126,18 @@ class BusCmdController extends PureComponent {
     }, 0);
   }
   render() {
+    const { report } = this.props;
     return (<section className={'cmd-controller'}>
-      <label htmlFor={'cmd-input'}>
-        {'Enter CMDs:'}
+      <div>
+        <label htmlFor={'cmd-input'}>{'Enter CMDs:'}</label>
+      </div>
+      <div>
         <textarea
           ref={(ele) => { this.cmdInputDom = ele; }}
           id={'cmd-input'}
           onChange={(e) => { this.setState({ cmds: e.target.value }); }}
         />
-      </label>
-      <button id="cmd-exec" onClick={this.onParseCmds}>{'EXECUTE'}</button>
+      </div>
       <div>
         <label htmlFor="file">{'Choose file to upload'}</label>
         <input
@@ -123,6 +146,13 @@ class BusCmdController extends PureComponent {
           type="file"
           id="file"
         />
+      </div>
+      <div>
+        <button id="cmd-exec" onClick={this.onParseCmds}>{'EXECUTE'}</button>
+      </div>
+      <div>
+        <label htmlFor="report">{'Output: '}</label>
+        <span id="report">{report}</span>
       </div>
     </section>);
   }
@@ -136,14 +166,17 @@ BusCmdController.propTypes = {
     direction: PropTypes.string,
   })),
   selectedBusId: PropTypes.string,
+  report: PropTypes.string,
   changeBusPos: PropTypes.func,
   switchBus: PropTypes.func,
+  changeReport: PropTypes.func,
 };
 
 /* istanbul ignore next */
 const mapStateToProps = state => ({
   buses: state.buses,
   selectedBusId: state.selectedBusId,
+  report: state.report,
 });
 
 /* istanbul ignore next */
@@ -153,6 +186,9 @@ const mapDispatchToProps = dispatch => ({
   },
   switchBus(busId) {
     dispatch(selectBus(busId));
+  },
+  changeReport(message) {
+    dispatch(setReport(message));
   },
 });
 

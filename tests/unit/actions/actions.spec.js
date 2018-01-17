@@ -11,8 +11,21 @@ describe('actions', () => {
     expect(actions.setSelectedBusId).toEqual(jasmine.any(Function));
     expect(actions.moveExistingBus).toEqual(jasmine.any(Function));
     expect(actions.setNotification).toEqual(jasmine.any(Function));
+    expect(actions.setReport).toEqual(jasmine.any(Function));
     expect(actions.selectBus).toEqual(jasmine.any(Function));
     expect(actions.placeBus).toEqual(jasmine.any(Function));
+  });
+
+  it('should set the report.', () => {
+    const initialState = { buses: [], parkSize: 5 };
+    const store = mockStore(initialState);
+    const message = '0,0,NORTH';
+    store.dispatch(actions.setReport(message));
+    const expectedActions = [{
+      type: ACTION_TYPES.SET_REPORT,
+      message,
+    }];
+    expect(store.getActions()).toEqual(expectedActions);
   });
 
   it('should set the correct selectedBusId', () => {

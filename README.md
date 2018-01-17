@@ -1,2 +1,84 @@
 # carpark
-A simulation of a robot operated bus moving in a carpark
+The application is a simulation of a robot operated bus moving in a carpark, of dimensions 5 units x 5 units.
+
+There are no other obstructions in the carpark. The bus is free to roam around the carpark, but must be prevented from exiting the carpark. Any movement that would result in the bus leaving the carpark must be prevented, however further valid movement commands must still be allowed.
+
+The application should be able to read in any one of the following commands:
+
+#### PLACE X,Y,F
+#### MOVE
+#### LEFT
+#### RIGHT
+#### REPORT
+- **PLACE** will put the bus in the carpark in position X,Y and facing **NORTH**, **SOUTH**, **EAST** or **WEST**.
+- The origin (0,0) can be considered to be the **SOUTH WEST** most corner.
+- The first valid command to the bus is a **PLACE** command, after that, any sequence of commands may be issued, in any order, including another **PLACE** command. The application should discard all commands in the sequence until a valid **PLACE** command has been executed.
+- **MOVE** will move the bus one unit forward in the direction it is currently facing.
+- **LEFT** and **RIGHT** will rotate the bus 90 degrees in the specified direction without changing the position of the bus.
+- **REPORT** will announce the X,Y and F of the bus. Example:
+- A bus that is not in the carpark should ignore the **MOVE**, **LEFT**, **RIGHT** and **REPORT** commands.
+- Input can be from a file, or from standard input, as the user chooses.
+
+Examples:  
+a)  
+PLACE 0,0,NORTH  
+MOVE  
+REPORT  
+
+**Output:** 0,1,NORTH  
+
+b)  
+PLACE 0,0,NORTH  
+LEFT  
+REPORT  
+
+**Output:** 0,0,WEST
+
+c)  
+PLACE 1,2,EAST  
+MOVE  
+MOVE  
+LEFT  
+MOVE  
+REPORT  
+
+**Output:** 3,3,NORTH
+
+---
+## Getting started
+### Setup
+1. Clone the project from Git repo.
+2. Make sure you have node installed (install Node.js LTS v6.X.X, NPM 3.X).
+3. Switch to top level directory.
+4. `npm install` (Install necessary npm packages).
+
+---
+## Development Mode:
+
+### Run dev mode
+Dev mode enables [webpack-dev-middleware](https://webpack.js.org/guides/development/#using-webpack-dev-middleware), will cause `Webpack` to compile files in-memory - code changes are saved and updated when refreshing page in browser.
+
+1. Switch to top level directory.
+2. `npm run start:dev` to start web server.
+3. Go to browser and hit http://localhost:3000/carpark to launch.
+
+### Unit tests
+Specs for Unit Test all locate `tests/unit` of each package and are written in `Jasmine`, executing via `Karma` on `phantomJS`. Code coverage is run by `karma` plugins.
+
+1. Switch to top level directory.
+2. Run `npm run test:unit` to start the Unit Test.
+3. Review `tests/out/unit` for UT reports.
+4. Review `tests/out/coverage` for UT coverage reports.
+
+#### Static Analysis (Eslint)
+All projects are covered with `eslint` rules to ESS standard in `eslint-config-airbnb`, [details](https://github.com/airbnb/javascript)
+
+Run `npm run check:lint` to do the lint check.
+
+---
+## Production Mode:
+
+### Run prod mode
+1. Switch to top level directory.
+2. Run `npm run build` (to pack web files via Webpack and convert JS into ES5 via Babel)
+3. Run `npm start` (to start web server in prod mode)

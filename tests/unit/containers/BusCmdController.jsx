@@ -11,6 +11,7 @@ describe('<BusCmdController />', () => {
     selectedBusId: '',
     changeBusPos: () => {},
     switchBus: () => {},
+    changeReport: () => {},
   };
 
   it('should render BusCmdController.', () => {
@@ -95,6 +96,38 @@ describe('<BusCmdController />', () => {
     expect(initialProps.switchBus).toHaveBeenCalledWith(busId);
   });
 
+  it('should clear report when calling onReportPos() with isClearMsg=true.', () => {
+    spyOn(initialProps, 'changeReport');
+    const componentsWrapper = shallow(<BusCmdControllerCom {...initialProps} />);
+    componentsWrapper.instance().onReportPos(true);
+    expect(initialProps.changeReport).toHaveBeenCalledWith('');
+  });
+
+  it('should report selected bus\'s position when calling onReportPos().', () => {
+    spyOn(initialProps, 'changeReport');
+    const selectedBus = TEST_BUSES.BUS_1;
+    const props = {
+      ...initialProps,
+      buses: [TEST_BUSES.BUS_1, TEST_BUSES.BUS_2, TEST_BUSES.BUS_3, TEST_BUSES.BUS_4],
+      selectedBusId: selectedBus.id,
+    };
+    const componentsWrapper = shallow(<BusCmdControllerCom {...props} />);
+    componentsWrapper.instance().onReportPos();
+    expect(initialProps.changeReport)
+      .toHaveBeenCalledWith(`${selectedBus.posX},${selectedBus.posY},${selectedBus.direction}`);
+  });
+
+  it('should do nothing when calling onReportPos() with no selected bus', () => {
+    spyOn(initialProps, 'changeReport');
+    const props = {
+      ...initialProps,
+      buses: [TEST_BUSES.BUS_1, TEST_BUSES.BUS_2, TEST_BUSES.BUS_3, TEST_BUSES.BUS_4],
+    };
+    const componentsWrapper = shallow(<BusCmdControllerCom {...props} />);
+    componentsWrapper.instance().onReportPos();
+    expect(initialProps.changeReport).not.toHaveBeenCalled();
+  });
+
   it('should upload file and set cmds in state from the file.', (done) => {
     const componentsWrapper = mount(<BusCmdControllerCom {...initialProps} />);
     const fileContents = 'place 0,0,north';
@@ -120,12 +153,14 @@ describe('<BusCmdController />', () => {
     spyOn(componentsWrapper.instance(), 'onCreateNewBus');
     spyOn(componentsWrapper.instance(), 'onTurnBus');
     spyOn(componentsWrapper.instance(), 'onMoveBus');
+    spyOn(componentsWrapper.instance(), 'onReportPos');
     componentsWrapper.setState({ cmds: TEST_CMDS.CMD_CORRECT });
     componentsWrapper.find('#cmd-exec').simulate('click');
     setTimeout(() => {
       expect(componentsWrapper.instance().onCreateNewBus.calls.count()).toEqual(1);
       expect(componentsWrapper.instance().onTurnBus.calls.count()).toEqual(2);
       expect(componentsWrapper.instance().onMoveBus.calls.count()).toEqual(1);
+      expect(componentsWrapper.instance().onReportPos.calls.count()).toEqual(2);
       done();
     }, 100);
   });
@@ -135,12 +170,14 @@ describe('<BusCmdController />', () => {
     spyOn(componentsWrapper.instance(), 'onCreateNewBus');
     spyOn(componentsWrapper.instance(), 'onTurnBus');
     spyOn(componentsWrapper.instance(), 'onMoveBus');
+    spyOn(componentsWrapper.instance(), 'onReportPos');
     componentsWrapper.setState({ cmds: TEST_CMDS.CMD_ERROR_INCORRECT_FORMAT });
     componentsWrapper.find('#cmd-exec').simulate('click');
     setTimeout(() => {
       expect(componentsWrapper.instance().onCreateNewBus.calls.count()).toEqual(0);
       expect(componentsWrapper.instance().onTurnBus.calls.count()).toEqual(2);
       expect(componentsWrapper.instance().onMoveBus.calls.count()).toEqual(1);
+      expect(componentsWrapper.instance().onReportPos.calls.count()).toEqual(2);
       done();
     }, 100);
   });

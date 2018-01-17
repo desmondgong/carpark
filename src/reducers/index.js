@@ -5,6 +5,7 @@ export const INITIAL_STATE = {
   selectedBusId: '',
   parkSize: 5,
   notification: '',
+  report: '',
 };
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -28,6 +29,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         notification: action.message,
+      };
+    case ACTION_TYPES.SET_REPORT:
+      return {
+        ...state,
+        report: action.message,
       };
     default:
       return state;
