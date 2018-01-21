@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import * as CONSTANTS from '../constants';
-import { placeBus, selectBus } from '../actions';
-import * as Utils from '../utils';
+import WithBusController from './WithBusController';
 
 /**
  * This container includes some buttons for manually control the carpark.
@@ -16,41 +14,18 @@ class BusPanelController extends PureComponent {
       posY: 0,
       direction: CONSTANTS.DIR_NORTH,
     };
-    this.onCreateNewBus = this.onCreateNewBus.bind(this);
-    this.onTurnBus = this.onTurnBus.bind(this);
-    this.onMoveBus = this.onMoveBus.bind(this);
-    this.onSwitchBus = this.onSwitchBus.bind(this);
-  }
-
-  onCreateNewBus() {
-    const { posX, posY, direction } = this.state;
-    const { changeBusPos } = this.props;
-    changeBusPos({ posX, posY, direction });
-  }
-
-  onTurnBus(isClockwise) {
-    const { buses, selectedBusId, changeBusPos } = this.props;
-    const selectedBus = buses.find(bus => bus.id === selectedBusId);
-    changeBusPos({
-      posX: selectedBus.posX,
-      posY: selectedBus.posY,
-      direction: Utils.rotateBus(selectedBus.direction, isClockwise),
-    }, selectedBusId);
-  }
-
-  onMoveBus(isForward) {
-    const { buses, selectedBusId, changeBusPos } = this.props;
-    const selectedBus = buses.find(bus => bus.id === selectedBusId);
-    changeBusPos(Utils.moveBus(selectedBus, isForward), selectedBusId);
-  }
-
-  onSwitchBus(busId) {
-    const { switchBus } = this.props;
-    switchBus(busId);
   }
 
   render() {
-    const { buses, selectedBusId } = this.props;
+    const {
+      buses,
+      selectedBusId,
+      onCreateNewBus,
+      onSwitchBus,
+      onTurnBus,
+      onMoveBus,
+     } = this.props;
+    const { posX, posY, direction } = this.state;
     return (<section>
       <div>
         <label htmlFor={'pos-x'}>
@@ -82,7 +57,7 @@ class BusPanelController extends PureComponent {
             }
           </select>
         </label>
-        <button onClick={() => { this.onCreateNewBus(); }}>{'PLACE'}</button>
+        <button onClick={() => { onCreateNewBus({ posX, posY, direction }); }}>{'PLACE'}</button>
       </div>
 
       <div className={'controller'}>
@@ -91,7 +66,7 @@ class BusPanelController extends PureComponent {
           <select
             id={'selected-bus'}
             defaultValue={selectedBusId}
-            onChange={(e) => { this.onSwitchBus(e.target.value); }}
+            onChange={(e) => { onSwitchBus(e.target.value); }}
           >
             {
               buses.map((bus, i) => <option
@@ -104,10 +79,9 @@ class BusPanelController extends PureComponent {
             }
           </select>
         </label>
-        <button onClick={() => { this.onTurnBus(false); }}>{'LEFT'}</button>
-        <button onClick={() => { this.onTurnBus(true); }}>{'RIGHT'}</button>
-        <button onClick={() => { this.onMoveBus(true); }}>{'MOVE'}</button>
-        <button>{'REPORT'}</button>
+        <button onClick={() => { onTurnBus(false); }}>{'LEFT'}</button>
+        <button onClick={() => { onTurnBus(true); }}>{'RIGHT'}</button>
+        <button onClick={() => { onMoveBus(true); }}>{'MOVE'}</button>
       </div>
     </section>);
   }
@@ -121,8 +95,10 @@ BusPanelController.propTypes = {
     direction: PropTypes.string,
   })),
   selectedBusId: PropTypes.string,
-  changeBusPos: PropTypes.func,
-  switchBus: PropTypes.func,
+  onCreateNewBus: PropTypes.func,
+  onTurnBus: PropTypes.func,
+  onMoveBus: PropTypes.func,
+  onSwitchBus: PropTypes.func,
 };
 
 /* istanbul ignore next */
@@ -131,14 +107,5 @@ const mapStateToProps = state => ({
   selectedBusId: state.selectedBusId,
 });
 
-/* istanbul ignore next */
-const mapDispatchToProps = dispatch => ({
-  changeBusPos(position, busId) {
-    dispatch(placeBus(position, busId));
-  },
-  switchBus(busId) {
-    dispatch(selectBus(busId));
-  },
-});
 export { BusPanelController as BusPanelControllerCom };
-export default connect(mapStateToProps, mapDispatchToProps)(BusPanelController);
+export default WithBusController(BusPanelController, mapStateToProps);

@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { placeBus, selectBus } from '../actions';
+import { placeBus, selectBus, setReport } from '../actions';
 import * as Utils from '../utils';
 
 // TODO Use a composition to set the movment function,
 // there are still some issues in Unit Test.
-const WithBusController = (WrappedComponent) => {
+const WithBusController = (WrappedComponent, mapStateToProps) => {
   class BusController extends PureComponent {
     constructor(props) {
       super(props);
@@ -14,6 +14,7 @@ const WithBusController = (WrappedComponent) => {
       this.onTurnBus = this.onTurnBus.bind(this);
       this.onMoveBus = this.onMoveBus.bind(this);
       this.onSwitchBus = this.onSwitchBus.bind(this);
+      this.onReportPos = this.onReportPos.bind(this);
     }
 
     onCreateNewBus({ posX, posY, direction }) {
@@ -50,6 +51,19 @@ const WithBusController = (WrappedComponent) => {
       switchBus(busId);
     }
 
+    onReportPos(isClearMsg) {
+      const { buses, selectedBusId, changeReport } = this.props;
+      if (isClearMsg) {
+        changeReport('');
+      } else {
+        const selectedBus = buses.find(bus => bus.id === selectedBusId);
+        if (selectedBus) {
+          const currentPosMsg = `${selectedBus.posX},${selectedBus.posY},${selectedBus.direction}`;
+          changeReport(currentPosMsg);
+        }
+      }
+    }
+
     render() {
       return (<WrappedComponent
         {...this.props}
@@ -57,6 +71,7 @@ const WithBusController = (WrappedComponent) => {
         onTurnBus={this.onTurnBus}
         onMoveBus={this.onMoveBus}
         onSwitchBus={this.onSwitchBus}
+        onReportPos={this.onReportPos}
       />);
     }
   }
@@ -70,10 +85,12 @@ const WithBusController = (WrappedComponent) => {
     selectedBusId: PropTypes.string,
     changeBusPos: PropTypes.func,
     switchBus: PropTypes.func,
+    changeReport: PropTypes.func,
   };
 
   /* istanbul ignore next */
-  const mapStateToProps = state => ({
+  const defualtMapStateToProps = state => ({
+    ...mapStateToProps(state),
     buses: state.buses,
     selectedBusId: state.selectedBusId,
   });
@@ -86,8 +103,11 @@ const WithBusController = (WrappedComponent) => {
     switchBus(busId) {
       dispatch(selectBus(busId));
     },
+    changeReport(message) {
+      dispatch(setReport(message));
+    },
   });
-  return connect(mapStateToProps, mapDispatchToProps)(BusController);
+  return connect(defualtMapStateToProps, mapDispatchToProps)(BusController);
 };
 
 export default WithBusController;
