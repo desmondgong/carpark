@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import * as CONSTANTS from '../constants';
+import * as MESSAGES from '../constants/Messages';
 import WithBusController from './WithBusController';
 
 /**
@@ -57,7 +58,9 @@ class BusPanelController extends PureComponent {
             }
           </select>
         </label>
-        <button onClick={() => { onCreateNewBus({ posX, posY, direction }); }}>{'PLACE'}</button>
+        <button onClick={() => { onCreateNewBus({ posX, posY, direction }); }}>
+          {MESSAGES.BUS_PANEL_LABEL_PLACE}
+        </button>
       </div>
 
       <div className={'controller'}>
@@ -79,9 +82,9 @@ class BusPanelController extends PureComponent {
             }
           </select>
         </label>
-        <button onClick={() => { onTurnBus(false); }}>{'LEFT'}</button>
-        <button onClick={() => { onTurnBus(true); }}>{'RIGHT'}</button>
-        <button onClick={() => { onMoveBus(true); }}>{'MOVE'}</button>
+        <button onClick={() => { onTurnBus(false); }}>{MESSAGES.BUS_PANEL_LABEL_TURN_LEFT}</button>
+        <button onClick={() => { onTurnBus(true); }}>{MESSAGES.BUS_PANEL_LABEL_TURN_RIGHT}</button>
+        <button onClick={() => { onMoveBus(true); }}>{MESSAGES.BUS_PANEL_LABEL_MOVE}</button>
       </div>
     </section>);
   }

@@ -2,8 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import WithBusController from './WithBusController';
 import * as CONSTANTS from '../constants';
+import * as MESSAGES from '../constants/Messages';
 
 class BusCmdController extends PureComponent {
+  /* Be carefull to use PureComponent, as it only do shadow comparison for
+  * state and props, if they are in hierarchy, we should abonden it.
+  */
   constructor(props) {
     super(props);
     this.state = {
@@ -76,7 +80,7 @@ class BusCmdController extends PureComponent {
     const { report } = this.props;
     return (<section className={'cmd-controller'}>
       <div>
-        <label htmlFor={'cmd-input'}>{'Enter CMDs:'}</label>
+        <label htmlFor={'cmd-input'}>{MESSAGES.BUS_CMD_LABEL_INPUT}</label>
       </div>
       <div>
         <textarea
@@ -86,7 +90,7 @@ class BusCmdController extends PureComponent {
         />
       </div>
       <div>
-        <label htmlFor="file">{'Choose file to upload'}</label>
+        <label htmlFor="file">{MESSAGES.BUS_CMD_LABEL_UPLOAD}</label>
         <input
           ref={(ele) => { this.fileUploadDom = ele; }}
           onChange={this.onUploadFile}
@@ -95,10 +99,10 @@ class BusCmdController extends PureComponent {
         />
       </div>
       <div>
-        <button id="cmd-exec" onClick={this.onParseCmds}>{'EXECUTE'}</button>
+        <button id="cmd-exec" onClick={this.onParseCmds}>{MESSAGES.BUS_CMD_LABEL_EXECUTE}</button>
       </div>
       <div>
-        <label htmlFor="report">{'Output: '}</label>
+        <label htmlFor="report">{MESSAGES.BUS_CMD_LABEL_OUTPUT}</label>
         <span id="report">{report}</span>
       </div>
     </section>);

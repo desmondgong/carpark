@@ -1,4 +1,5 @@
 import * as ACTION_TYPES from '../constants/ActionTypes';
+import * as MESSAGES from '../constants/Messages';
 import * as Utils from '../utils';
 
 export const createNewBus = position => ({
@@ -58,9 +59,9 @@ export const placeBus = (position, id) => (dispatch, getState) => {
   // check whether the park unit is already covered or not.
   const { buses, parkSize } = getState();
   if (!Utils.checkInsidePark(position, parkSize)) {
-    dispatch(setNotification('Target position is outside of park.'));
+    dispatch(setNotification(MESSAGES.NOTIFICATION_OUTSIDE_PARK));
   } else if (Utils.checkBusExists(position, buses, id)) {
-    dispatch(setNotification('The park unit has been covered by another bus.'));
+    dispatch(setNotification(MESSAGES.NOTIFICATION_UNIT_TAKEN));
   } else if (id) {
     dispatch(moveExistingBus(position, id));
   } else if (Utils.isValidDirection(position.direction)) {
