@@ -3,9 +3,6 @@ const Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
 const vCapabilities = [
   {
     browserName: 'chrome',
-    chromeOptions: {
-      args: ['--no-sandbox', '--window-size=1920,1080', '--disable-gpu'],
-    },
   }];
 
 exports.config = {

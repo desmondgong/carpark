@@ -14,6 +14,7 @@ module.exports = (config) => {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
+      // PhantomJS does not support ES6, polyfill.js is needed before the test sources.
       'tests/unit/**/*.js',
       'tests/unit/**/*.jsx',
     ],

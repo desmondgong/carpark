@@ -51,7 +51,8 @@ This application is based on the following tools/libraries:
 - UI Render: **React/Redux, SASS**.
 - Bundler: **Webpack**.
 - Lint check: **ESlint, eslint-config-airbnb**.
-- Unit Test: **Jasmine, Enzyme, Karma**.
+- E2E Testing: **Protractor, Chrome**.
+- Unit Testing: **Jasmine, Enzyme, Karma**.
 - Web Server: **Express**.
 
 ### Setup
@@ -78,7 +79,7 @@ Specs for Unit Test all locate `tests/unit` of each package and are written in `
 3. Review `tests/out/unit` for UT reports.
 4. Review `tests/out/coverage` for UT coverage reports.
 
-### E2E tests (testing CMDs)
+### E2E tests (for testing CMDs)
 `Protractor` is included for E2E testing, allows for JS based automation tests using familiar `Jasmine` BDD test syntax.
 
 In this application, I use `chrome` as the testing server, so the following steps are necessary:

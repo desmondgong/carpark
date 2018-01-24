@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     main: './src/index.jsx',
     _common: [
-      'react-dom', 'redux', 'react-redux', 'redux-thunk', 'react-addons-pure-render-mixin',
+      'react-dom', 'redux', 'react-redux', 'redux-thunk',
     ],
   },
   output: {

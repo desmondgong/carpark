@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -11,23 +10,10 @@ module.exports = {
     filename: '[name].bundle.js',
   },
 
-  node: {
-    fs: 'empty',
-    child_process: 'empty',
-  },
-
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: { presets: ['es2015'] } },
       { test: /\.json$/, loader: 'json-loader' },
     ],
   },
-
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
-  ],
 };
