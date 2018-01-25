@@ -19,17 +19,17 @@ const WithBusController = (WrappedComponent, mapStateToProps) => {
 
     onCreateNewBus({ posX, posY, direction }) {
       const { changeBusPos } = this.props;
-      changeBusPos({ posX, posY, direction });
+      return changeBusPos({ posX, posY, direction });
     }
 
     onTurnBus(isClockwise) {
       const { buses, selectedBusId, changeBusPos } = this.props;
       if (!selectedBusId) {
         // TODO add error message and logs.
-        return;
+        return Promise.resolve();
       }
       const selectedBus = buses.find(bus => bus.id === selectedBusId);
-      changeBusPos({
+      return changeBusPos({
         posX: selectedBus.posX,
         posY: selectedBus.posY,
         direction: Utils.rotateBus(selectedBus.direction, isClockwise),
@@ -40,28 +40,28 @@ const WithBusController = (WrappedComponent, mapStateToProps) => {
       const { buses, selectedBusId, changeBusPos } = this.props;
       if (!selectedBusId) {
         // TODO add error message and logs.
-        return;
+        return Promise.resolve();
       }
       const selectedBus = buses.find(bus => bus.id === selectedBusId);
-      changeBusPos(Utils.moveBus(selectedBus, isForward), selectedBusId);
+      return changeBusPos(Utils.moveBus(selectedBus, isForward), selectedBusId);
     }
 
     onSwitchBus(busId) {
       const { switchBus } = this.props;
-      switchBus(busId);
+      return switchBus(busId);
     }
 
     onReportPos(isClearMsg) {
       const { buses, selectedBusId, changeReport } = this.props;
       if (isClearMsg) {
-        changeReport('');
-      } else {
-        const selectedBus = buses.find(bus => bus.id === selectedBusId);
-        if (selectedBus) {
-          const currentPosMsg = `${selectedBus.posX},${selectedBus.posY},${selectedBus.direction}`;
-          changeReport(currentPosMsg);
-        }
+        return changeReport('');
       }
+      const selectedBus = buses.find(bus => bus.id === selectedBusId);
+      if (selectedBus) {
+        const currentPosMsg = `${selectedBus.posX},${selectedBus.posY},${selectedBus.direction}`;
+        return changeReport(currentPosMsg);
+      }
+      return Promise.resolve();
     }
 
     render() {
@@ -98,13 +98,13 @@ const WithBusController = (WrappedComponent, mapStateToProps) => {
   /* istanbul ignore next */
   const mapDispatchToProps = dispatch => ({
     changeBusPos(position, busId) {
-      dispatch(placeBus(position, busId));
+      return dispatch(placeBus(position, busId));
     },
     switchBus(busId) {
-      dispatch(selectBus(busId));
+      return dispatch(selectBus(busId));
     },
     changeReport(message) {
-      dispatch(setReport(message));
+      return dispatch(setReport(message));
     },
   });
   return connect(defualtMapStateToProps, mapDispatchToProps)(BusController);

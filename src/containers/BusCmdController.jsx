@@ -33,48 +33,41 @@ class BusCmdController extends PureComponent {
 
   onParseCmds() {
     const { onCreateNewBus, onTurnBus, onMoveBus, onSwitchBus, onReportPos } = this.props;
+    let cmdsPromise = Promise.resolve(onReportPos(true));
     // clear report before new cmds are executed.
-    setTimeout(() => {
-      onReportPos(true);
-    }, 0);
     const { cmds } = this.state;
     const cmdArray = cmds.toUpperCase().split('\n');
     cmdArray.forEach((cmd) => {
-      // add setTimeout() here to wait until the last cmd is executed.
-      setTimeout(() => {
+      // set then() here to execute until the last cmd is finished.
+      cmdsPromise = cmdsPromise.then(() => {
         const cmdKeys = cmd.split(' ');
         const cmdType = cmdKeys[0];
         const cmdArgs = cmdKeys[1] ? cmdKeys[1].split(',') : [];
         switch (cmdType) {
           case CONSTANTS.CMD_PLACE:
             if (cmdArgs.length > 2) {
-              onCreateNewBus({
+              return onCreateNewBus({
                 posX: parseInt(cmdArgs[0], 10),
                 posY: parseInt(cmdArgs[1], 10),
                 direction: cmdArgs[2],
               });
             }
-            break;
+            return Promise.resolve();
           case CONSTANTS.CMD_TURN_LEFT:
-            onTurnBus(false);
-            break;
+            return onTurnBus(false);
           case CONSTANTS.CMD_TURN_RIGHT:
-            onTurnBus(true);
-            break;
+            return onTurnBus(true);
           case CONSTANTS.CMD_MOVE_FARWARD:
-            onMoveBus(true);
-            break;
+            return onMoveBus(true);
           case CONSTANTS.CMD_REPORT:
-            onReportPos();
-            break;
+            return onReportPos();
           default:
+            return Promise.resolve();
         }
-      }, 0);
+      });
     });
     // clear the selected bus id after CMDs are finished.
-    setTimeout(() => {
-      onSwitchBus(null);
-    }, 0);
+    cmdsPromise.then(() => onSwitchBus(null));
   }
   render() {
     const { report } = this.props;
