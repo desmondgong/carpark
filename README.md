@@ -99,5 +99,19 @@ Run `npm run check:lint` to do the lint check.
 
 ### Run prod mode
 1. Switch to top level directory.
-2. Run `npm run build` (to pack web files via Webpack and convert JS into ES5 via Babel)
-3. Run `npm start` (to start web server in prod mode)
+2. Run `npm run build` (to pack web files via Webpack and convert JS into ES5 via Babel).
+3. Run `npm start` (to start web server in prod mode).
+4. Go to browser and hit http://localhost:3000/carpark to launch.
+
+---
+## Deployment
+`Docker` is introduced for deployment. It provides a way to run applications securely isolated in a container, packaged with all its dependencies and libraries.
+
+### Create local docker image
+1. Install Docker via https://www.docker.com/community-edition#/download.
+2. Switch to top level directory.
+3. Run `npm install` (to install necessary npm packages).
+4. Run `npm run build` (to pack web files via Webpack and convert JS into ES5 via Babel).
+5. Run `docker build -t carpark .` to create docker image.
+6. Run `docker run --name carpark -p 3000:3000 -d carpark ` to start the container.
+7. Go to browser and hit http://localhost:3000/carpark to launch.
