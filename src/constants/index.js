@@ -1,3 +1,6 @@
+export const TAB_PANEL = 'panel';
+export const TAB_CMD = 'cmd';
+
 export const DIR_NORTH = 'NORTH';
 export const DIR_EAST = 'EAST';
 export const DIR_SOUTH = 'SOUTH';

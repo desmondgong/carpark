@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Bus from './Bus';
 
-const Carpark = ({ buses, selectedBusId, parkSize }) => {
+const Carpark = ({ containerClass, buses, selectedBusId, parkSize }) => {
   const parkUnits = [];
   for (let i = 0; i < parkSize * parkSize; i += 1) {
     parkUnits[i] = null;
@@ -14,7 +14,7 @@ const Carpark = ({ buses, selectedBusId, parkSize }) => {
       direction: bus.direction,
     };
   });
-  return (<section className={'carpark-container'}>
+  return (<div className={classnames('carpark-container', containerClass)}>
     {
       parkUnits.map((parkUnit, i) => {
         let unitClass = classnames('park-unit', (i % parkSize === 0) ? 'boundary' : '');
@@ -30,10 +30,11 @@ const Carpark = ({ buses, selectedBusId, parkSize }) => {
         return <div key={i} className={unitClass} />;
       })
     }
-  </section>);
+  </div>);
 };
 
 Carpark.propTypes = {
+  containerClass: PropTypes.string,
   buses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     posX: PropTypes.number,

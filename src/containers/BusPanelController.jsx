@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import * as CONSTANTS from '../constants';
 import * as MESSAGES from '../constants/Messages';
 import WithBusController from './WithBusController';
+import PlaceSVG from '../resources/img/place.svg';
+import TurnLeftSVG from '../resources/img/turnLeft.svg';
+import MoveSVG from '../resources/img/move.svg';
 
 /**
  * This container includes some buttons for manually control the carpark.
@@ -27,45 +30,58 @@ class BusPanelController extends PureComponent {
       onMoveBus,
      } = this.props;
     const { posX, posY, direction } = this.state;
-    return (<section>
-      <div>
-        <label htmlFor={'pos-x'}>
-          {'X:'}
-          <input
-            id={'pos-x'}
-            type="number"
-            defaultValue={0}
-            onChange={(e) => { this.setState({ posX: parseInt(e.target.value, 10) }); }}
-          />
-        </label>
-        <label htmlFor={'pos-y'}>
-          {'Y:'}
-          <input
-            id={'pos-y'}
-            type="number"
-            defaultValue={0}
-            onChange={(e) => { this.setState({ posY: parseInt(e.target.value, 10) }); }}
-          />
-        </label>
-        <label htmlFor={'pos-dir'}>
-          {'DIRECTION:'}
-          <select
-            id={'pos-dir'}
-            onChange={(e) => { this.setState({ direction: e.target.value }); }}
-          >
-            {
-              CONSTANTS.DIR_ALL.map((dir, i) => <option key={i} value={dir}>{dir}</option>)
-            }
-          </select>
-        </label>
-        <button onClick={() => { onCreateNewBus({ posX, posY, direction }); }}>
-          {MESSAGES.BUS_PANEL_LABEL_PLACE}
-        </button>
+    return (<div className={'panel-controller container-fluid'} >
+      <div className="place-bus row">
+        <div className="place-inputs col-8">
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">{'X:'}</span>
+            </div>
+            <input
+              type="number"
+              className="form-control"
+              defaultValue={0}
+              onChange={(e) => { this.setState({ posX: parseInt(e.target.value, 10) }); }}
+            />
+          </div>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">{'Y:'}</span>
+            </div>
+            <input
+              type="number"
+              className="form-control"
+              defaultValue={0}
+              onChange={(e) => { this.setState({ posY: parseInt(e.target.value, 10) }); }}
+            />
+          </div>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">{'DIRECTION:'}</span>
+            </div>
+            <select
+              id={'pos-dir'}
+              onChange={(e) => { this.setState({ direction: e.target.value }); }}
+            >
+              {
+                CONSTANTS.DIR_ALL.map((dir, i) => <option key={i} value={dir}>{dir}</option>)
+              }
+            </select>
+          </div>
+        </div>
+        <div className={'place-btn col-4'}>
+          <button className={'btn-lg btn-primary'} onClick={() => { onCreateNewBus({ posX, posY, direction }); }}>
+            <PlaceSVG />
+            {MESSAGES.BUS_PANEL_LABEL_PLACE}
+          </button>
+        </div>
       </div>
 
-      <div className={'controller'}>
-        <label htmlFor={'selected-bus'}>
-          {'Selected Bus:'}
+      <div className={'controller row'}>
+        <div className="input-group col-8">
+          <div className="input-group-prepend">
+            <span className="input-group-text">{'Selected Bus:'}</span>
+          </div>
           <select
             id={'selected-bus'}
             defaultValue={selectedBusId}
@@ -81,12 +97,27 @@ class BusPanelController extends PureComponent {
               </option>)
             }
           </select>
-        </label>
-        <button onClick={() => { onTurnBus(false); }}>{MESSAGES.BUS_PANEL_LABEL_TURN_LEFT}</button>
-        <button onClick={() => { onTurnBus(true); }}>{MESSAGES.BUS_PANEL_LABEL_TURN_RIGHT}</button>
-        <button onClick={() => { onMoveBus(true); }}>{MESSAGES.BUS_PANEL_LABEL_MOVE}</button>
+        </div>
+        <div className={'control-btns col-4 container'}>
+          <div className={'btn-row row'}>
+            <button className={'btn btn-primary'} onClick={() => { onMoveBus(true); }}>
+              <MoveSVG transform={'rotate(-90)'} />
+              {MESSAGES.BUS_PANEL_LABEL_MOVE}
+            </button>
+          </div>
+          <div className={'btn-row row'}>
+            <button className={'btn btn-primary'} onClick={() => { onTurnBus(false); }}>
+              <TurnLeftSVG />
+              {MESSAGES.BUS_PANEL_LABEL_TURN_LEFT}
+            </button>
+            <button className={'btn btn-primary'} onClick={() => { onTurnBus(true); }}>
+              <TurnLeftSVG transform={'scale(-1, 1)'} />
+              {MESSAGES.BUS_PANEL_LABEL_TURN_RIGHT}
+            </button>
+          </div>
+        </div>
       </div>
-    </section>);
+    </div>);
   }
 }
 

@@ -1,0 +1,24 @@
+.panel-controller {
+  svg {
+    fill: white;
+  }
+  .input-group {
+    height: 38px;
+  }
+  >div {
+    padding: 10px 0;
+  }
+  .place-bus {
+    border-bottom: 1px solid $gray-300;
+    .place-btn {
+      text-align: center;
+    }
+  }
+  .controller {
+    .btn-row {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  }
+}

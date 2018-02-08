@@ -71,34 +71,53 @@ class BusCmdController extends PureComponent {
   }
   render() {
     const { report } = this.props;
-    return (<section className={'cmd-controller'}>
-      <div>
-        <label htmlFor={'cmd-input'}>{MESSAGES.BUS_CMD_LABEL_INPUT}</label>
+    return (<div className={'cmd-controller container-fluid'}>
+      <div className="cmd-inputs row">
+        <div className="input-group col-8">
+          <div className="input-group-prepend">
+            <span className="input-group-text">{MESSAGES.BUS_CMD_LABEL_INPUT}</span>
+          </div>
+          <textarea
+            ref={(ele) => { this.cmdInputDom = ele; }}
+            id={'cmd-input'}
+            onChange={(e) => { this.setState({ cmds: e.target.value }); }}
+          />
+        </div>
+        <div className="input-group col-8">
+          <div className="input-group-prepend">
+            <span className="input-group-text">{'Upload'}</span>
+          </div>
+          <div className="custom-file">
+            <input
+              ref={(ele) => { this.fileUploadDom = ele; }}
+              onChange={this.onUploadFile}
+              type="file"
+              id="file"
+            />
+            <label
+              className="custom-file-label"
+              htmlFor="file"
+            >
+              {MESSAGES.BUS_CMD_LABEL_UPLOAD}
+            </label>
+          </div>
+        </div>
       </div>
+
       <div>
-        <textarea
-          ref={(ele) => { this.cmdInputDom = ele; }}
-          id={'cmd-input'}
-          onChange={(e) => { this.setState({ cmds: e.target.value }); }}
-        />
-      </div>
-      <div>
-        <label htmlFor="file">{MESSAGES.BUS_CMD_LABEL_UPLOAD}</label>
-        <input
-          ref={(ele) => { this.fileUploadDom = ele; }}
-          onChange={this.onUploadFile}
-          type="file"
-          id="file"
-        />
-      </div>
-      <div>
-        <button id="cmd-exec" onClick={this.onParseCmds}>{MESSAGES.BUS_CMD_LABEL_EXECUTE}</button>
+        <button
+          className={'btn btn-primary'}
+          id="cmd-exec"
+          onClick={this.onParseCmds}
+        >
+          {MESSAGES.BUS_CMD_LABEL_EXECUTE}
+        </button>
       </div>
       <div>
         <label htmlFor="report">{MESSAGES.BUS_CMD_LABEL_OUTPUT}</label>
         <span id="report">{report}</span>
       </div>
-    </section>);
+    </div>);
   }
 }
 
