@@ -48,7 +48,7 @@ REPORT
 ## Getting started
 ### Tech Stack
 This application is based on the following tools/libraries:
-- UI Render: **React/Redux, SASS**.
+- UI Render: **React/Redux, SASS, Bootstrap**.
 - Bundler: **Webpack**.
 - Lint check: **ESlint, eslint-config-airbnb**.
 - E2E Testing: **Protractor, Chrome**.

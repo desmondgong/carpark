@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { clearAllBuses } from '../actions';
 import Carpark from '../components/Carpark';
 import BusPanelController from './BusPanelController';
 import BusCmdController from './BusCmdController';
@@ -17,7 +18,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const { buses, selectedBusId, parkSize, notification } = this.props;
+    const { buses, selectedBusId, parkSize, notification, restore } = this.props;
     const { activeTab } = this.state;
     const tabPanelClass = classnames('nav-link', (activeTab === CONSTANTS.TAB_PANEL) ? 'active' : '');
     const tabCmdClass = classnames('nav-link', (activeTab === CONSTANTS.TAB_CMD) ? 'active' : '');
@@ -28,6 +29,13 @@ class App extends PureComponent {
       </div>
       <div className={'row'}>
         <section className={'col-6 container'}>
+          <div className={'row'}>
+            <div className={'restore offset-2'}>
+              <button className={'btn btn-primary'} onClick={() => { restore(); }}>
+                {MESSAGES.APP_BTN_RESTORE}
+              </button>
+            </div>
+          </div>
           <div className={'row'}>
             <Carpark buses={buses} selectedBusId={selectedBusId} parkSize={parkSize} containerClass={'offset-2'} />
           </div>
@@ -79,6 +87,7 @@ App.propTypes = {
   selectedBusId: PropTypes.string,
   parkSize: PropTypes.number,
   notification: PropTypes.string,
+  restore: PropTypes.func,
 };
 
 /* istanbul ignore next */
@@ -89,5 +98,12 @@ const mapStateToProps = state => ({
   notification: state.notification,
 });
 
+/* istanbul ignore next */
+const mapDispatchToProps = dispatch => ({
+  restore() {
+    dispatch(clearAllBuses());
+  },
+});
+
 export { App as AppCom };
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -35,7 +35,7 @@ class BusPanelController extends PureComponent {
         <div className="place-inputs col-8">
           <div className="input-group">
             <div className="input-group-prepend">
-              <span className="input-group-text">{'X:'}</span>
+              <span className="input-group-text">{MESSAGES.BUS_PANEL_LABEL_POSITION_X}</span>
             </div>
             <input
               type="number"
@@ -46,7 +46,7 @@ class BusPanelController extends PureComponent {
           </div>
           <div className="input-group">
             <div className="input-group-prepend">
-              <span className="input-group-text">{'Y:'}</span>
+              <span className="input-group-text">{MESSAGES.BUS_PANEL_LABEL_POSITION_Y}</span>
             </div>
             <input
               type="number"
@@ -57,7 +57,7 @@ class BusPanelController extends PureComponent {
           </div>
           <div className="input-group">
             <div className="input-group-prepend">
-              <span className="input-group-text">{'DIRECTION:'}</span>
+              <span className="input-group-text">{MESSAGES.BUS_PANEL_LABEL_DIRECTION}</span>
             </div>
             <select
               id={'pos-dir'}
@@ -80,17 +80,16 @@ class BusPanelController extends PureComponent {
       <div className={'controller row'}>
         <div className="input-group col-8">
           <div className="input-group-prepend">
-            <span className="input-group-text">{'Selected Bus:'}</span>
+            <span className="input-group-text">{MESSAGES.BUS_PANEL_LABEL_SELECTED}</span>
           </div>
           <select
             id={'selected-bus'}
-            defaultValue={selectedBusId}
+            value={selectedBusId}
             onChange={(e) => { onSwitchBus(e.target.value); }}
           >
             {
               buses.map((bus, i) => <option
                 key={i}
-                selected={bus.id === selectedBusId}
                 value={bus.id}
               >
                 {bus.id}

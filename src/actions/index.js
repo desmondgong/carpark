@@ -28,6 +28,10 @@ export const setReport = message => ({
   message,
 });
 
+export const clearAllBuses = () => ({
+  type: ACTION_TYPES.CLEAR_ALL_BUSES,
+});
+
 /**
  * select the target bus
  * @param  {String} busId [target bus's id.
@@ -64,8 +68,10 @@ export const placeBus = (position, id) => (dispatch, getState) => {
     dispatch(setNotification(MESSAGES.NOTIFICATION_UNIT_TAKEN));
   } else if (id) {
     dispatch(moveExistingBus(position, id));
+    dispatch(setNotification(''));
   } else if (Utils.isValidDirection(position.direction)) {
     dispatch(createNewBus(position));
     dispatch(selectBus());
+    dispatch(setNotification(''));
   }
 };

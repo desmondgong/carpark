@@ -36,6 +36,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         report: action.message,
       };
+    case ACTION_TYPES.CLEAR_ALL_BUSES:
+      return INITIAL_STATE;
     default:
       return state;
   }

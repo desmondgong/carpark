@@ -1,17 +1,20 @@
-.park-unit {
-  width: 50px;
+.carpark-container {
+  padding: 10px 0;
+  .park-unit {
+    width: 50px;
     height: 50px;
     border: 1px solid;
     background-color: lightblue;
     float: left;
     margin: 1px;
-  &.bus {
-    background-color: lightcoral;
-    &.selected {
-      background-color: lightgreen;
+    &.bus {
+      background-color: lightcoral;
+      &.selected {
+        background-color: lightgreen;
+      }
     }
-  }
-  &.boundary {
-    clear: both;
+    &.boundary {
+      clear: both;
+    }
   }
 }
