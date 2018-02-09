@@ -12,7 +12,7 @@ describe('<Carpark />', () => {
 
   it('should render an empty carpark with 25 units.', () => {
     const componentsWrapper = shallow(<Carpark {...initialProps} />);
-    expect(componentsWrapper.find('section.carpark-container').length).toEqual(1);
+    expect(componentsWrapper.find('.carpark-container').length).toEqual(1);
     expect(componentsWrapper.find('div.park-unit').length)
       .toEqual(initialProps.parkSize * initialProps.parkSize);
     expect(componentsWrapper.find('div.park-unit.boundary').length)

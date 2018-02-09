@@ -20,8 +20,8 @@ class App extends PureComponent {
   render() {
     const { buses, selectedBusId, parkSize, notification, restore } = this.props;
     const { activeTab } = this.state;
-    const tabPanelClass = classnames('nav-link', (activeTab === CONSTANTS.TAB_PANEL) ? 'active' : '');
-    const tabCmdClass = classnames('nav-link', (activeTab === CONSTANTS.TAB_CMD) ? 'active' : '');
+    const tabPanelClass = classnames('tab-panel nav-link', (activeTab === CONSTANTS.TAB_PANEL) ? 'active' : '');
+    const tabCmdClass = classnames('tab-cmd nav-link', (activeTab === CONSTANTS.TAB_CMD) ? 'active' : '');
     return (<div className={'main-content container'}>
       <div className={'app-header'}>
         <h1>{MESSAGES.APP_NAME}</h1>

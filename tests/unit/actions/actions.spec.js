@@ -14,6 +14,7 @@ describe('actions', () => {
     expect(actions.setReport).toEqual(jasmine.any(Function));
     expect(actions.selectBus).toEqual(jasmine.any(Function));
     expect(actions.placeBus).toEqual(jasmine.any(Function));
+    expect(actions.clearAllBuses).toEqual(jasmine.any(Function));
   });
 
   it('should set the report.', () => {
@@ -85,6 +86,9 @@ describe('actions', () => {
     }, {
       type: ACTION_TYPES.SET_SELECTED_BUS,
       busId: TEST_BUSES.BUS_4.id,
+    }, {
+      type: ACTION_TYPES.SET_NOTIFICATION,
+      message: '',
     }];
     expect(store.getActions()).toEqual(expectedActions);
   });
@@ -102,6 +106,9 @@ describe('actions', () => {
       type: ACTION_TYPES.MOVE_EXISTING_BUS,
       newPosition,
       busId: selectedBusId,
+    }, {
+      type: ACTION_TYPES.SET_NOTIFICATION,
+      message: '',
     }];
     expect(store.getActions()).toEqual(expectedActions);
   });

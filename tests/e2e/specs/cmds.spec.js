@@ -7,17 +7,16 @@ describe('CMDs test', () => {
     execBtn: '#cmd-exec',
     parkUints: 'div.park-unit',
     report: '#report',
+    tabCmd: '.tab-cmd',
   };
   beforeAll(() => {
     browser.get('/carpark');
   });
 
-  beforeEach(() => {
-    browser.refresh();
-  });
-
-  it('should show carpark page.', () => {
+  it('should show carpark page with cmd tab.', () => {
     expect(element(by.css('.carpark-container')).isPresent()).toBe(true);
+    const cmdTabElem = element(by.css(elems.tabCmd));
+    cmdTabElem.click();
     expect(element(by.css('.cmd-controller')).isPresent()).toBe(true);
     expect(element(by.css('#cmd-input')).isPresent()).toBe(true);
   });
@@ -25,6 +24,8 @@ describe('CMDs test', () => {
   describe('should display the correct buses in carpark, according to the cmds', () => {
     beforeEach(() => {
       browser.refresh();
+      const cmdTabElem = element(by.css(elems.tabCmd));
+      cmdTabElem.click();
     });
     TEST_CMDS.forEach(({ cmd = '', buses = [], report = '' }, i) => {
       it(`should passed according to CMD ${i + 1}`, () => {

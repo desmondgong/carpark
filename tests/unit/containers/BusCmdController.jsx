@@ -16,7 +16,7 @@ describe('<BusCmdController />', () => {
 
   it('should render BusCmdController.', () => {
     const componentsWrapper = mount(<BusCmdControllerCom {...initialProps} />);
-    expect(componentsWrapper.find('section.cmd-controller').length).toEqual(1);
+    expect(componentsWrapper.find('.cmd-controller').length).toEqual(1);
   });
 
   xit('should create new bus when calling onCreateNewBus().', () => {
